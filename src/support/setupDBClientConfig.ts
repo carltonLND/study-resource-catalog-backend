@@ -20,12 +20,13 @@ import { getEnvVarOrFail } from "./envVarUtils";
  * @returns a db client config object.
  */
 export function setupDBClientConfig() {
-  const dbEnvVarName = process.env.USE_LOCAL_DB
-    ? "LOCAL_DATABASE_URL"
+  const dbEnvVarName = process.env.USE_DEV_DB
+    ? "DEV_DATABASE_URL"
     : "DATABASE_URL";
+    
   const connectionString = getEnvVarOrFail(dbEnvVarName);
 
-  const sslSetting = process.env.USE_LOCAL_DB
+  const sslSetting = process.env.USE_DEV_DB
     ? false
     : { rejectUnauthorized: false };
 
