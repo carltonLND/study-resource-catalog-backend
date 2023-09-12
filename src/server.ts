@@ -16,6 +16,47 @@ app.get("/", async (_req, res) => {
   res.json({ msg: "Hello! There's nothing interesting for GET /" });
 });
 
+const numberStrings = [
+  "0",
+  "1",
+  "2",
+  "3",
+  "4",
+  "5",
+  "6",
+  "7",
+  "8",
+  "9",
+  "10",
+  "11",
+  "12",
+  "13",
+  "14",
+  "15",
+  "16",
+  "17",
+  "18",
+  "19",
+  "20",
+  "21",
+  "22",
+  "23",
+  "24",
+  "25",
+  "26",
+  "27",
+  "28",
+  "29",
+  "30",
+  "31",
+  "32",
+  "33",
+  "34",
+  "35",
+  "36",
+  "37",
+];
+
 app.get("/health-check", async (_req, res) => {
   try {
     await client.query("select now()");
@@ -24,6 +65,16 @@ app.get("/health-check", async (_req, res) => {
     console.error(error);
     res.status(500).send("An error occurred. Check server logs.");
   }
+});
+
+app.get("/resources", async (_req, res) => {
+  // client.query()
+  res.status(200).json(numberStrings);
+});
+
+app.post("/resources", async (req, res) => {
+  numberStrings.push(req.body.str);
+  res.status(201).json(req.body.str);
 });
 
 connectToDBAndStartListening();
