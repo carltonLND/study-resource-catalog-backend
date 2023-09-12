@@ -1,60 +1,96 @@
 
+DROP TABLE IF EXISTS comments;
+DROP TABLE IF EXISTS likes;
+DROP TABLE IF EXISTS recommendation;
+DROP TABLE IF EXISTS resource_tags;
+DROP TABLE IF EXISTS resources;
+DROP TABLE IF EXISTS recommendation_type;
+DROP TABLE IF EXISTS cohort_stage;
+DROP TABLE IF EXISTS authors;
+DROP TABLE IF EXISTS tags;
+DROP TABLE IF EXISTS users;
+
+
+-- non-dependent tables
 CREATE TABLE users (
 	id SERIAL PRIMARY KEY,
 	name VARCHAR(255) NOT NULL,
-	is_faculty boolean default false NOT NULL,
-)
-
-CREATE TABLE resources (
-	id SERIAL PRIMARY KEY,
-	title VARCHAR(255) NOT NULL,
-	author INTEGER REFERENCES authors(id) NOT NULL,
-	url INTEGER NOT NULL,
-	description INTEGER NOT NULL,
-	tags INTEGER REFERENCES resource_types(id) NOT NULL,
-	stage INTEGER REFERENCES cohort_stage(id) NOT NULL,
-	creation_time DATE NOT NULL,
-	owner INTEGER REFERENCES users(id) NOT NULL,
-	recommendation VARCHAR REFERENCES recommendation_type(id) NOT NULL,
-	reason INTEGER NOT NULL,
-)
-
-CREATE TABLE authors (
-	id SERIAL PRIMARY KEY,
-	name INTEGER unique NOT NULL,
-)
-
-CREATE TABLE cohort_stage (
-	id SERIAL PRIMARY KEY,
-	name INTEGER NOT NULL,
-	description INTEGER NOT NULL,
-)
+	is_faculty BOOLEAN DEFAULT false NOT NULL,
+);
 
 CREATE TABLE tags (
 	id SERIAL PRIMARY KEY,
 	name VARCHAR(255),
-)
+);
 
-CREATE TABLE likes (
-	resource_id SERIAL PRIMARY KEY REFERENCES users(id),
-	user_id INTEGER PRIMARY KEY REFERENCES resources(id),
-)
 
-CREATE TABLE comments (
+CREATE TABLE authors (
 	id SERIAL PRIMARY KEY,
-	user_id INTEGER REFERENCES users(id) NOT NULL,
-	resource_id INTEGER REFERENCES resources(id) NOT NULL,
-	content VARCHAR NOT NULL,
-	created_at timestamp NOT NULL,
-)
+	name VARCHAR(255) unique NOT NULL,
+);
 
-CREATE TABLE resource_tags (
-	resource_id SERIAL PRIMARY KEY REFERENCES resources(id),
-	tag_id INTEGER PRIMARY KEY REFERENCES tags(id),
-)
+CREATE TABLE cohort_stage (
+	id SERIAL PRIMARY KEY,
+	name VARCHAR(255) NOT NULL,
+);
 
 CREATE TABLE recommendation_type (
 	id SERIAL PRIMARY KEY,
-	description INTEGER,
-)
+	description VARCHAR(255) NOT NULL,
+);
 
+
+-- dependent tables
+
+
+CREATE TABLE resources (
+	id SERIAL PRIMARY KEY,
+	title VARCHAR(255) NOT NULL,
+	author_id SERIAL NOT NULL,
+	url VARCHAR(255) NOT NULL,
+	description VARCHAR(255) NOT NULL,
+	tags_id SERIAL,
+	stage_id SERIAL,
+	created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+	owner_id SERIAL NOT NULL,
+    FOREIGN KEY author_id REFERENCES authors(id) ON DELETE CASCADE,
+    FOREIGN KEY tags_id REFERENCES resource_types(id),
+    FOREIGN KEY stage_id REFERENCES cohort_stage(id),
+    FOREIGN KEY owner_id REFERENCES users(id) ON DELETE CASCADE,
+);
+
+
+CREATE TABLE resource_tags (
+	resource_id SERIAL,
+	tag_id SERIAL,
+    PRIMARY KEY (resource_id tag_id),
+    FOREIGN KEY resource_id REFERENCES resources(id) ON DELETE CASCADE,
+    FOREIGN KEY tag_id REFERENCES tags(id) ON DELETE CASCADE,
+);
+
+CREATE TABLE recommendation (
+    resource_id SERIAL PRIMARY KEY,
+    recommendation_type_id SERIAL,
+    content VARCHAR(255) NOT NULL ,
+    FOREIGN KEY resource_id REFERENCES resources(id) ON DELETE CASCADE,
+    FOREIGN KEY recommendation_type_id REFERENCES recommendation_type(id) ON DELETE CASCADE,
+);
+
+
+CREATE TABLE likes (
+	resource_id SERIAL,
+	user_id SERIAL,
+    PRIMARY KEY (resource_id user_id),
+    FOREIGN KEY resource_id REFERENCES users(id) ON DELETE CASCADE,
+    FOREIGN KEY user_id REFERENCES resources(id) ON DELETE CASCADE,
+);
+
+CREATE TABLE comments (
+	id SERIAL PRIMARY KEY,
+	user_id SERIAL,
+	resource_id SERIAL,
+	content VARCHAR(255) NOT NULL,
+	created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY user_id REFERENCES users(id) ON DELETE CASCADE,
+    FOREIGN KEY resource_id REFERENCES resources(id) ON DELETE CASCADE,
+);
