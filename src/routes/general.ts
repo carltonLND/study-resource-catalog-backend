@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { listener } from "../server";
+import { database } from "../server";
 
 const router = Router();
 
@@ -10,7 +10,7 @@ router.get("/", async (_req, res, next) => {
 
 router.get("/health-check", async (_req, res) => {
   try {
-    await listener.query("select now()");
+    await database.query("select now()");
     res.status(200).send("system ok");
   } catch (error) {
     console.error(error);

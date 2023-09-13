@@ -13,7 +13,7 @@ import { Client } from "pg";
 dotenv.config();
 
 const dbClientConfig = setupDBClientConfig();
-export const listener = new Client(dbClientConfig);
+export const database = new Client(dbClientConfig);
 
 const app = express()
   .use(express.json())
@@ -32,7 +32,7 @@ connectToDBAndStartListening();
 
 async function connectToDBAndStartListening() {
   console.log("Attempting to connect to db");
-  await listener.connect();
+  await database.connect();
   console.log("Connected to db!");
 
   const port = getEnvVarOrFail("PORT");
