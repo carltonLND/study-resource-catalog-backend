@@ -23,11 +23,11 @@ export function setupDBClientConfig() {
   const dbEnvVarName = process.env.USE_DEV_DB
     ? "DEV_DATABASE_URL"
     : "DATABASE_URL";
-    console.log(dbEnvVarName)
+  console.log(dbEnvVarName);
 
   const connectionString = getEnvVarOrFail(dbEnvVarName);
   // const connectionString = getEnvVarOrFail(dbEnvVarName);
-  console.log(connectionString)
+  console.log(connectionString);
 
   const sslSetting = process.env.USE_DEV_DB
     ? false

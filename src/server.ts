@@ -11,6 +11,7 @@ import { setupDBClientConfig } from "./support/setupDBClientConfig";
 import { Client } from "pg";
 
 dotenv.config();
+
 const dbClientConfig = setupDBClientConfig();
 export const listener = new Client(dbClientConfig);
 
@@ -23,12 +24,9 @@ const app = express()
   .use("/likes", likesRouter)
   .use("/comments", commentsRouter);
 
-
 // app.get("/testErrorCatch",async (_req, _res) => {
 //   throw new Error("failed successfully");
 // })
-
-
 
 connectToDBAndStartListening();
 

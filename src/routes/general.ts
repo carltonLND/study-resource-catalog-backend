@@ -5,7 +5,7 @@ const router = Router();
 
 router.get("/", async (_req, res, next) => {
   res.json({ msg: "Hello! There's nothing interesting for GET /" });
-  next()
+  next();
 });
 
 router.get("/health-check", async (_req, res) => {
@@ -17,7 +17,6 @@ router.get("/health-check", async (_req, res) => {
     res.status(500).send("An error occurred. Check server logs.");
   }
 });
-
 
 const homeRouter = router;
 export default homeRouter;
