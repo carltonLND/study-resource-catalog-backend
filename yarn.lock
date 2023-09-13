@@ -1468,6 +1468,13 @@ qs@6.11.0:
   dependencies:
     side-channel "^1.0.4"
 
+query-from-file@^1.0.2:
+  version "1.0.2"
+  resolved "https://registry.yarnpkg.com/query-from-file/-/query-from-file-1.0.2.tgz#7c68ecab3ff671231bb96842568d8d0907a9e057"
+  integrity sha512-5l3jqKbeXx5rF6vcgjNqLFu3qHSB2t+pOQ7FZKUkxcKKZxSuWXMhc/SqyTQLEUK8oEUyqjYqHjoo3o4Zj7MunA==
+  dependencies:
+    pg "^8.8.0"
+
 queue-microtask@^1.2.2:
   version "1.2.3"
   resolved "https://registry.yarnpkg.com/queue-microtask/-/queue-microtask-1.2.3.tgz#4929228bbc724dfac43e0efb058caf7b6cfb6243"
