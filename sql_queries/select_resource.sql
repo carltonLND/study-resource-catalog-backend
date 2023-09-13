@@ -1,0 +1,1 @@
+SELECT * FROM resources WHERE name=$1;
