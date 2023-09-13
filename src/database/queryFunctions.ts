@@ -1,11 +1,11 @@
-import dbClient from "./dbSetup";
+import { database } from "../server";
 import { MinimalResource } from "./types";
 
 export async function getResources(): Promise<MinimalResource[]> {
-  const resources = await dbClient
-    .fileQuery("select_resource", [1])
+  const resources = await database
+    .fileQuery("select_resources")
     .then((response) => response.rows);
-  const tags = await dbClient
+  const tags = await database
     .fileQuery("select_resource_tags")
     .then((response) => response.rows);
 

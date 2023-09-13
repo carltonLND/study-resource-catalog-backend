@@ -6,7 +6,7 @@ const router = Router();
 
 router.get("/", async (_req, res) => {
   try {
-    const resources = getResources();
+    const resources = await getResources();
     res.status(200).json(resources);
   } catch (error) {
     console.error(error);
