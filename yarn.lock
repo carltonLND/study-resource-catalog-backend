@@ -1469,9 +1469,9 @@ qs@6.11.0:
     side-channel "^1.0.4"
 
 query-from-file@^1.0.2:
-  version "1.0.2"
-  resolved "https://registry.yarnpkg.com/query-from-file/-/query-from-file-1.0.2.tgz#7c68ecab3ff671231bb96842568d8d0907a9e057"
-  integrity sha512-5l3jqKbeXx5rF6vcgjNqLFu3qHSB2t+pOQ7FZKUkxcKKZxSuWXMhc/SqyTQLEUK8oEUyqjYqHjoo3o4Zj7MunA==
+  version "1.0.4"
+  resolved "https://registry.yarnpkg.com/query-from-file/-/query-from-file-1.0.4.tgz#a8d827c2bece7f75cb5c724ab7bf948ef925f2e2"
+  integrity sha512-cQTfZwOvP8hDFSDjc+oQCr1XLpOtNxK5cVxLZNjehNsysE06aVRWtmD94ptIRgVX8U9MI0RSsgJYvRZq/X6pKQ==
   dependencies:
     pg "^8.8.0"
 
