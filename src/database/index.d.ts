@@ -38,3 +38,8 @@ export interface Resource extends MinimalResource {
   comments: Comment[];
   likes: Like[];
 }
+
+export interface ResourceTag {
+  resource_id: number;
+  tag_name: string;
+}

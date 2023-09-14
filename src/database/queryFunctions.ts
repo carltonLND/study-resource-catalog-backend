@@ -10,7 +10,12 @@ export async function getResources(): Promise<MinimalResource[]> {
     .then((response) => response.rows);
 
   const resourcesWithTags = resources.map((resource) => {
-    return { ...resource, tags: tags.filter((t) => resource.id === t[0]) };
+    return {
+      ...resource,
+      tags: tags
+        .filter((t) => resource.id === t.resource_id)
+        .map((t) => t.tag_name),
+    };
   });
 
   return resourcesWithTags;
