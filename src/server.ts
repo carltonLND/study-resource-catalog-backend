@@ -1,19 +1,24 @@
 import cors from "cors";
-import express from "express";
-import { getEnvVarOrFail } from "./support/envVarUtils";
-import homeRouter from "./routes/general";
-import userRouter from "./routes/users";
-import resourcesRouter from "./routes/resources";
-import likesRouter from "./routes/likes";
-import commentsRouter from "./routes/comments";
 import dotenv from "dotenv";
+import express from "express";
+// import { DatabaseClient } from "../../query-from-file";
+import { DatabaseClient } from "query-from-file";
+import commentsRouter from "./routes/comments";
+import homeRouter from "./routes/general";
+import likesRouter from "./routes/likes";
+import resourcesRouter from "./routes/resources";
+import userRouter from "./routes/users";
+import { getEnvVarOrFail } from "./support/envVarUtils";
 import { setupDBClientConfig } from "./support/setupDBClientConfig";
-import { Client } from "pg";
 
 dotenv.config();
 
-const dbClientConfig = setupDBClientConfig();
-export const database = new Client(dbClientConfig);
+// const dbClientConfig = setupDBClientConfig();
+// export const database = new Client(dbClientConfig);
+export const database = new DatabaseClient(
+  setupDBClientConfig(),
+  "sql_queries"
+);
 
 const app = express()
   .use(express.json())

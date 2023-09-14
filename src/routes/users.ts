@@ -1,11 +1,11 @@
 import { Router } from "express";
-import { listener } from "../server";
+import { database } from "../server";
 
 const router = Router();
 
 router.get("/users", async (_req, res) => {
   try {
-    await listener.query("select now()");
+    await database.query("select now()");
     res.status(200).send("system ok");
   } catch (error) {
     console.error(error);
