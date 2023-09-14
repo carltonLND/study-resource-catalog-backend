@@ -1,12 +1,12 @@
 import { database } from "../server";
-import { MinimalResource } from "./index";
+import { DbTag, MinimalResource, ResourceTag } from "./index";
 
 export async function getResources(): Promise<MinimalResource[]> {
   const resources = await database
-    .fileQuery("select_resources")
+    .fileQuery<MinimalResource, undefined>("select_resources")
     .then((response) => response.rows);
   const tags = await database
-    .fileQuery("select_resource_tags")
+    .fileQuery<ResourceTag, undefined>("select_resource_tags")
     .then((response) => response.rows);
 
   const resourcesWithTags = resources.map((resource) => {
@@ -14,9 +14,15 @@ export async function getResources(): Promise<MinimalResource[]> {
       ...resource,
       tags: tags
         .filter((t) => resource.id === t.resource_id)
-        .map((t) => t.tag_name),
+        .map((t) => {return {id: t.tag_id, name: t.tag_name}}),
     };
   });
 
   return resourcesWithTags;
+}
+
+
+export async function getTags(): Promise<DbTag[]> {
+  const tags = await database.fileQuery("select_tags").then(response => response.rows) as DbTag[]
+  return tags
 }

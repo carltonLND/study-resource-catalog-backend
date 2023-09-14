@@ -21,13 +21,13 @@ CREATE TABLE users (
 
 CREATE TABLE tags (
 	id SERIAL PRIMARY KEY,
-	name VARCHAR(255)
+	name VARCHAR(255) UNIQUE
 );
 
 
 CREATE TABLE authors (
 	id SERIAL PRIMARY KEY,
-	name VARCHAR(255) unique NOT NULL
+	name VARCHAR(255) UNIQUE NOT NULL
 );
 
 CREATE TABLE cohort_stage (
@@ -47,7 +47,7 @@ CREATE TABLE recommendation_type (
 CREATE TABLE resources (
 	id SERIAL PRIMARY KEY,
 	title VARCHAR(255) NOT NULL,
-	author_id SERIAL NOT NULL,
+	author_id SERIAL,
 	url VARCHAR(255) NOT NULL,
 	description VARCHAR(255) NOT NULL,
 	stage_id SERIAL,

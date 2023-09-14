@@ -17,11 +17,13 @@
   "author": "C7C6",
   "license": "ISC",
   "dependencies": {
+    "@types/morgan": "^1.9.5",
     "cors": "^2.8.5",
     "dotenv": "^16.0.2",
     "express": "^4.18.1",
+    "morgan": "^1.10.0",
     "pg": "^8.8.0",
-    "query-from-file": "^1.0.2"
+    "query-from-file": "^1.1.2"
   },
   "devDependencies": {
     "@types/cors": "^2.8.12",

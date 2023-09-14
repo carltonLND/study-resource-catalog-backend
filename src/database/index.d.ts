@@ -4,11 +4,6 @@ export interface User {
   isFaculty?: boolean;
 }
 
-export interface Recommendation {
-  resource_id: number;
-  recommendation_type: string;
-  content: string;
-}
 
 export interface Comment {
   id: number;
@@ -29,7 +24,19 @@ export interface MinimalResource {
   description: string;
   created_at: string;
   author_name: string;
-  tags: string[];
+  tags: DbTag[];
+}
+
+export interface ResourceTag {
+  resource_id: number;
+  tag_id: number;
+  tag_name: string;
+}
+
+
+export interface DbTag {
+  id: number;
+  name: string;
 }
 
 export interface Resource extends MinimalResource {
@@ -39,7 +46,21 @@ export interface Resource extends MinimalResource {
   likes: Like[];
 }
 
-export interface ResourceTag {
+
+
+export interface Recommendation {
   resource_id: number;
-  tag_name: string;
+  recommendation_type_id: number;
+  content: string;
+}
+
+export interface NewResource {
+  title: string;
+  author_id?: number;
+  url: string;
+  description: string;
+  stage_id?: number;
+  tag_ids: number[];
+  owner: User;
+  recommendation: Recommendation;
 }
