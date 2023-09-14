@@ -1,5 +1,5 @@
 import { database } from "../server";
-import { MinimalResource } from "./types";
+import { MinimalResource } from "./index";
 
 export async function getResources(): Promise<MinimalResource[]> {
   const resources = await database
