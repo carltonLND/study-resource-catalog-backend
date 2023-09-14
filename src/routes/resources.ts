@@ -24,7 +24,6 @@ router.get("/:resourceId", async (_req, res) => {
   }
 });
 
-
 router.get("/tags", async (_req, res) => {
   try {
     const tags = await getTags();
@@ -32,10 +31,8 @@ router.get("/tags", async (_req, res) => {
   } catch (error) {
     console.error(error);
     res.status(500).send("An error occurred. Check server logs.");
-  }})
-
+  }
+});
 
 const resourcesRouter = router;
 export default resourcesRouter;
-
-

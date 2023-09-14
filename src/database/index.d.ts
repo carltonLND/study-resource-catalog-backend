@@ -4,7 +4,6 @@ export interface User {
   isFaculty?: boolean;
 }
 
-
 export interface Comment {
   id: number;
   resource_id: number;
@@ -33,7 +32,6 @@ export interface ResourceTag {
   tag_name: string;
 }
 
-
 export interface DbTag {
   id: number;
   name: string;
@@ -45,8 +43,6 @@ export interface Resource extends MinimalResource {
   comments: Comment[];
   likes: Like[];
 }
-
-
 
 export interface Recommendation {
   resource_id: number;

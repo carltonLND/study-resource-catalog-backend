@@ -14,15 +14,18 @@ export async function getResources(): Promise<MinimalResource[]> {
       ...resource,
       tags: tags
         .filter((t) => resource.id === t.resource_id)
-        .map((t) => {return {id: t.tag_id, name: t.tag_name}}),
+        .map((t) => {
+          return { id: t.tag_id, name: t.tag_name };
+        }),
     };
   });
 
   return resourcesWithTags;
 }
 
-
 export async function getTags(): Promise<DbTag[]> {
-  const tags = await database.fileQuery("select_tags").then(response => response.rows) as DbTag[]
-  return tags
+  const tags = (await database
+    .fileQuery("select_tags")
+    .then((response) => response.rows)) as DbTag[];
+  return tags;
 }
