@@ -12,7 +12,9 @@
     "start:dev-with-production-db": "ts-node-dev --files src/server.ts",
     "start": "node dist/server.js",
     "type-check": "tsc --noEmit",
-    "type-check:watch": "tsc --noEmit --watch"
+    "type-check:watch": "tsc --noEmit --watch",
+    "test": "jest --passWithNoTests --no-watch verbose",
+    "test:watch": "jest verbose"
   },
   "author": "C7C6",
   "license": "ISC",
