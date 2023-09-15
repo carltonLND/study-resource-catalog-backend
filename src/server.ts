@@ -10,6 +10,8 @@ import resourcesRouter from "./routes/resources";
 import userRouter from "./routes/users";
 import { getEnvVarOrFail } from "./support/envVarUtils";
 import { setupDBClientConfig } from "./support/setupDBClientConfig";
+import morgan from "morgan";
+// import {morgan} from "morgan"
 
 dotenv.config();
 
@@ -23,6 +25,7 @@ export const database = new DatabaseClient(
 const app = express()
   .use(express.json())
   .use(cors())
+  .use(morgan("tiny"))
   .use("/", homeRouter)
   .use("/users", userRouter)
   .use("/resources", resourcesRouter)
