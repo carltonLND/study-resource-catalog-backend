@@ -3131,10 +3131,10 @@ qs@6.11.0:
   dependencies:
     side-channel "^1.0.4"
 
-query-from-file@^1.1.2:
-  version "1.1.4"
-  resolved "https://registry.yarnpkg.com/query-from-file/-/query-from-file-1.1.4.tgz#54f03238216b804901073a73d5fd399501a362bf"
-  integrity sha512-B8xLPEOExpCT8198bwCyytkm3/K9Mu8bk+Un98pBLJdljJHAR5EHHeGNaT9DSixSvbXTOMIgTiMUHRGxdq+TMQ==
+query-from-file@^1.1.6:
+  version "1.1.6"
+  resolved "https://registry.yarnpkg.com/query-from-file/-/query-from-file-1.1.6.tgz#8fbb3e01ad93d7ebfdbc1ab18e9938b257efd534"
+  integrity sha512-YuBrLliVGHIJAOEX1PDo6Ms+T+VlyBxHhheeYe3Xn/izuvIdJXx+QNBxh/y/O8xgDHCmwCrfaVJUGTJC/7PCqQ==
   dependencies:
     pg "^8.8.0"
 
