@@ -1,4 +1,4 @@
-export interface User {
+export interface DbUser {
   id: number;
   name: string;
   isFaculty?: boolean;
@@ -38,7 +38,7 @@ export interface DbTag {
 }
 
 export interface Resource extends MinimalResource {
-  owner: User;
+  owner: DbUser;
   recommendation: Recommendation;
   comments: Comment[];
   likes: Like[];
@@ -57,6 +57,6 @@ export interface NewResource {
   description: string;
   stage_id?: number;
   tag_ids: number[];
-  owner: User;
+  owner_id: number;
   recommendation: Recommendation;
 }

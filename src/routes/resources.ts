@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { getResources } from "../database/queryFunctions";
+import { getResources } from "../database/resources";
 
 const router = Router();
 
@@ -13,7 +13,7 @@ router.get("/", async (_req, res) => {
   }
 });
 
-// router.get("/:resourceId", async (_req, res) => {
+// router.get("/full/:resourceId", async (_req, res) => {
 //   try {
 //     await database.query("select now()");
 //     res.status(200).send("system ok");

@@ -1,5 +1,5 @@
+import { MinimalResource, ResourceTag } from "..";
 import { database } from "../server";
-import { DbTag, MinimalResource, ResourceTag } from "./index";
 
 export async function getResources(): Promise<MinimalResource[]> {
   const resources = await database
@@ -21,11 +21,4 @@ export async function getResources(): Promise<MinimalResource[]> {
   });
 
   return resourcesWithTags;
-}
-
-export async function getTags(): Promise<DbTag[]> {
-  const tags = (await database
-    .fileQuery("select_tags")
-    .then((response) => response.rows)) as DbTag[];
-  return tags;
 }

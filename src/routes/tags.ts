@@ -1,6 +1,5 @@
-import { getTags } from "../database/queryFunctions";
-
 import { Router } from "express";
+import { getTags } from "../database/tags";
 
 const router = Router();
 
