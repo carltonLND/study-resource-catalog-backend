@@ -17,15 +17,6 @@ export interface Like {
   user_id: number;
 }
 
-export interface MinimalResource {
-  id: number;
-  title: string;
-  description: string;
-  created_at: string;
-  author_name: string;
-  tags: DbTag[];
-}
-
 export interface ResourceTag {
   resource_id: number;
   tag_id: number;
@@ -37,12 +28,32 @@ export interface DbTag {
   name: string;
 }
 
+export interface MinimalResource {
+  id: number;
+  title: string;
+  description: string;
+  created_at: string;
+  author_name: string;
+  author_id: number;
+  tags: DbTag[];
+}
+
 export interface Resource extends MinimalResource {
-  owner: DbUser;
-  recommendation: Recommendation;
+  owner_name: string;
+  owner_id: number;
+  recommendation_type: string;
+  recommendation_content: string;
+}
+
+export interface ResourceWithComments extends Resource {
   comments: Comment[];
+}
+
+export interface ResourceWithLikes extends Resource {
   likes: Like[];
 }
+
+export type FullResource = ResourceWithComments & ResourceWithLikes;
 
 export interface Recommendation {
   resource_id: number;
