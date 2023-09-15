@@ -5,7 +5,7 @@ const router = Router();
 
 router.get("/", async (_req, res) => {
   try {
-    const user = await getUsers()
+    const user = await getUsers();
     res.status(200).json(user);
   } catch (error) {
     console.error(error);
@@ -13,10 +13,9 @@ router.get("/", async (_req, res) => {
   }
 });
 
-
-router.post<{name: string}>("/:name", async (req, res) => {
+router.post<{ name: string }>("/:name", async (req, res) => {
   try {
-    const {name} = req.params
+    const { name } = req.params;
     const user = await insertUser(name);
     res.status(200).json(user);
   } catch (error) {

@@ -37,7 +37,6 @@ export interface DbTag {
   name: string;
 }
 
-
 export interface Resource extends MinimalResource {
   owner: DbUser;
   recommendation: Recommendation;
