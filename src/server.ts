@@ -1,7 +1,7 @@
 import cors from "cors";
 import dotenv from "dotenv";
 import express from "express";
-// import { DatabaseClient } from "../../query-from-file";
+// import { DatabaseClient } from "../../query-from-file/src/databaseClient";
 import morgan from "morgan";
 import { DatabaseClient } from "query-from-file";
 import commentsRouter from "./routes/comments";
