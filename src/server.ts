@@ -2,16 +2,16 @@ import cors from "cors";
 import dotenv from "dotenv";
 import express from "express";
 // import { DatabaseClient } from "../../query-from-file";
+import morgan from "morgan";
 import { DatabaseClient } from "query-from-file";
 import commentsRouter from "./routes/comments";
 import homeRouter from "./routes/general";
 import likesRouter from "./routes/likes";
 import resourcesRouter from "./routes/resources";
+import tagsRouter from "./routes/tags";
 import userRouter from "./routes/users";
 import { getEnvVarOrFail } from "./support/envVarUtils";
 import { setupDBClientConfig } from "./support/setupDBClientConfig";
-import morgan from "morgan";
-// import {morgan} from "morgan"
 
 dotenv.config();
 
@@ -29,6 +29,7 @@ const app = express()
   .use("/", homeRouter)
   .use("/users", userRouter)
   .use("/resources", resourcesRouter)
+  .use("/tags", tagsRouter)
   .use("/likes", likesRouter)
   .use("/comments", commentsRouter);
 
