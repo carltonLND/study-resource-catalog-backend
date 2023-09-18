@@ -66,12 +66,22 @@ export interface Recommendation {
 }
 
 export interface NewResource {
+  title: string; //
+  author_id?: number; // 
+  url: string; //
+  description: string; //
+  stage_id?: number; //
+  tag_ids: number[]; 
+  owner_id: number; // 
+  recommendation: Recommendation; //
+}
+
+export interface DbResource {
+  id: number;
   title: string;
-  author_id?: number;
+  author_id: number;
   url: string;
   description: string;
-  stage_id?: number;
-  tag_ids: number[];
-  owner_id: number;
-  recommendation: Recommendation;
+  stage_id: string;
+  created_at: number;
 }

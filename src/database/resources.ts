@@ -1,5 +1,7 @@
 import {
+  DbResource,
   MinimalResource,
+  NewResource,
   Resource,
   ResourceTag,
   ResourceWithComments,
@@ -52,4 +54,10 @@ export async function getResourceByIdWithComments(
     .then((response) => response.rows);
   const resourceWithComments = { ...resource, comments: comments };
   return resourceWithComments;
+}
+
+
+export async function insertResource({title,  url, description, stage_id, /*author_id, tag_ids, owner_id, recommendation*/}: NewResource) {
+  const newResource = await database.fileQuery<DbResource>("insert_resource", [title, 1, url, description, stage_id]).then(r => r.rows[0]); //TODO: Replace 1 with author_id
+  return newResource
 }
