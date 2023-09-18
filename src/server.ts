@@ -16,8 +16,6 @@ import recommendationsRouter from "./routes/recommendations";
 
 dotenv.config();
 
-// const dbClientConfig = setupDBClientConfig();
-// export const database = new Client(dbClientConfig);
 export const database = new DatabaseClient(
   setupDBClientConfig(),
   "sql_queries"
@@ -35,9 +33,7 @@ const app = express()
   .use("/comments", commentsRouter)
   .use("/recommendations", recommendationsRouter);
 
-// app.get("/testErrorCatch",async (_req, _res) => {
-//   throw new Error("failed successfully");
-// })
+
 
 connectToDBAndStartListening();
 
