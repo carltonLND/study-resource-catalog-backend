@@ -42,18 +42,23 @@ router.get("/full/:resourceId", async (req, res) => {
   }
 });
 
-
-router.post<NewResource>("/",async (req, res) => {
+router.post<NewResource>("/", async (req, res) => {
   try {
     const newResource = await insertResource(req.body);
-    const newRecommendation = await insertRecommendation(req.body.recommendation, newResource.id);
-    const createdResource = {...newResource, recommendation: newRecommendation};
-    console.log(createdResource)
-    res.status(200).json(createdResource)
+    const newRecommendation = await insertRecommendation(
+      req.body.recommendation,
+      newResource.id
+    );
+    const createdResource = {
+      ...newResource,
+      recommendation: newRecommendation,
+    };
+    console.log(createdResource);
+    res.status(200).json(createdResource);
   } catch (error) {
-    console.log(error)
+    console.log(error);
   }
-})
+});
 
 const resourcesRouter = router;
 export default resourcesRouter;

@@ -67,12 +67,12 @@ export interface Recommendation {
 
 export interface NewResource {
   title: string; //
-  author_id?: number; // 
+  author_id?: number; //
   url: string; //
   description: string; //
   stage_id?: number; //
-  tag_ids: number[]; 
-  owner_id: number; // 
+  tag_ids: number[];
+  owner_id: number; //
   recommendation: Recommendation; //
 }
 
