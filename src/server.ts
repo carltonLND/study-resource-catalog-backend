@@ -12,6 +12,7 @@ import tagsRouter from "./routes/tags";
 import userRouter from "./routes/users";
 import { getEnvVarOrFail } from "./support/envVarUtils";
 import { setupDBClientConfig } from "./support/setupDBClientConfig";
+import recommendationsRouter from "./routes/recommendations";
 
 dotenv.config();
 
@@ -31,7 +32,8 @@ const app = express()
   .use("/resources", resourcesRouter)
   .use("/tags", tagsRouter)
   .use("/likes", likesRouter)
-  .use("/comments", commentsRouter);
+  .use("/comments", commentsRouter)
+  .use("/recommendations", recommendationsRouter);
 
 // app.get("/testErrorCatch",async (_req, _res) => {
 //   throw new Error("failed successfully");

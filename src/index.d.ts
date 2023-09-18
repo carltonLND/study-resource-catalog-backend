@@ -55,10 +55,14 @@ export interface ResourceWithLikes extends Resource {
 
 export type FullResource = ResourceWithComments & ResourceWithLikes;
 
+export interface DbRecommendation {
+  id: string;
+  description: string;
+}
+
 export interface Recommendation {
-  resource_id: number;
   recommendation_type_id: number;
-  content: string;
+  description: string;
 }
 
 export interface NewResource {
