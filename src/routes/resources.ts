@@ -1,18 +1,17 @@
 import { Router } from "express";
 import {
+  getMinimalResources,
   getResourceById,
   getResourceByIdWithComments,
-  getResources,
   insertResource,
 } from "../database/resources";
-import { NewResource } from "..";
-import { insertRecommendation } from "../database/recommendations";
+import { FullResource, NewResource } from "..";
 
 const router = Router();
 
 router.get("/", async (_req, res) => {
   try {
-    const resources = await getResources();
+    const resources = await getMinimalResources();
     res.status(200).json(resources);
   } catch (error) {
     console.error(error);
@@ -42,19 +41,10 @@ router.get("/full/:resourceId", async (req, res) => {
   }
 });
 
-router.post<NewResource>("/", async (req, res) => {
+router.post<"/", "", FullResource, NewResource>("/", async (req, res) => {
   try {
     const newResource = await insertResource(req.body);
-    const newRecommendation = await insertRecommendation(
-      req.body.recommendation,
-      newResource.id
-    );
-    const createdResource = {
-      ...newResource,
-      recommendation: newRecommendation,
-    };
-    console.log(createdResource);
-    res.status(200).json(createdResource);
+    res.status(200).json(newResource);
   } catch (error) {
     console.log(error);
   }

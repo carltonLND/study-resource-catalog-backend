@@ -13,5 +13,15 @@ router.get("/", async (_req, res) => {
   }
 });
 
+router.post("/tags", async (_req, res) => {
+  try {
+    const tags = await getTags();
+    res.status(200).json(tags);
+  } catch (error) {
+    console.error(error);
+    res.status(500).send("An error occurred. Check server logs.");
+  }
+});
+
 const tagsRouter = router;
 export default tagsRouter;

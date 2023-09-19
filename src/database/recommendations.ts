@@ -6,7 +6,7 @@ export async function insertRecommendation(
   resource_id: number
 ) {
   const response = await database.query(
-    "INSERT INTO recommendations (resource_id, recommendation_type_id, content) VALUES ($1, $2, $3) RETURNING *",
+    "INSERT INTO recommendations (resource_id, recommendation_type_id, content) VALUES ($1, $2, $3) RETURNING recommendation_type_id, content",
     [
       resource_id,
       recommendation.recommendation_type_id,

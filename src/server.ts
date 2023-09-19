@@ -2,8 +2,8 @@ import cors from "cors";
 import dotenv from "dotenv";
 import express from "express";
 // import { DatabaseClient } from "../../query-from-file/src/databaseClient";
-import morgan from "morgan";
 import { DatabaseClient } from "query-from-file";
+import morgan from "morgan";
 import commentsRouter from "./routes/comments";
 import homeRouter from "./routes/general";
 import likesRouter from "./routes/likes";
@@ -32,8 +32,6 @@ const app = express()
   .use("/likes", likesRouter)
   .use("/comments", commentsRouter)
   .use("/recommendations", recommendationsRouter);
-
-
 
 connectToDBAndStartListening();
 
