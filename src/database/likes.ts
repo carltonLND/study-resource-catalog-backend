@@ -9,23 +9,29 @@ export async function getResourceLikes(resourceId: number) {
   return likes;
 }
 
-
 export async function getResourceLikeCount(resourceId: number) {
-    const response = await database.fileQuery<ResourceLike>("select_likes", [resourceId]);
-    const likes = response.rows;
-    const count = likes.length;
-    return {
-        count: count,
-    };
+  const response = await database.fileQuery<ResourceLike>("select_likes", [
+    resourceId,
+  ]);
+  const likes = response.rows;
+  const count = likes.length;
+  return {
+    count: count,
+  };
 }
 
-export async function getResourceLikeCountAndIfLiked(resourceId: number, userId: number) {
-    const response = await database.fileQuery<ResourceLike>("select_likes", [resourceId]);
-    const likes = response.rows;
-    const count = likes.length;
-    const liked = likes.some(like => like.user_id === userId)
-    return {
-        count: count,
-        liked: liked,
-    };
+export async function getResourceLikeCountAndIfLiked(
+  resourceId: number,
+  userId: number
+) {
+  const response = await database.fileQuery<ResourceLike>("select_likes", [
+    resourceId,
+  ]);
+  const likes = response.rows;
+  const count = likes.length;
+  const liked = likes.some((like) => like.user_id === userId);
+  return {
+    count: count,
+    liked: liked,
+  };
 }

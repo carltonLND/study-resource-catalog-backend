@@ -5,7 +5,11 @@ import {
   insertResource,
 } from "../database/resources";
 import { FullResource, NewResource } from "..";
-import { getResourceLikeCount, getResourceLikeCountAndIfLiked, getResourceLikes } from "../database/likes";
+import {
+  getResourceLikeCount,
+  getResourceLikeCountAndIfLiked,
+  getResourceLikes,
+} from "../database/likes";
 import { getResourceComments } from "../database/comments";
 
 const router = Router();
@@ -55,8 +59,7 @@ router.get<{ resourceId: string }>(
   }
 );
 
-
-router.get<{ resourceId: string, userId: string }>(
+router.get<{ resourceId: string; userId: string }>(
   "/:resourceId/likes/count",
   async (_req, res) => {
     const { resourceId } = _req.params;
@@ -65,11 +68,14 @@ router.get<{ resourceId: string, userId: string }>(
   }
 );
 
-router.get<{ resourceId: string, userId: string }>(
+router.get<{ resourceId: string; userId: string }>(
   "/:resourceId/likes/count/:userId",
   async (_req, res) => {
     const { resourceId, userId } = _req.params;
-    const comments = await getResourceLikeCountAndIfLiked(parseInt(resourceId), parseInt(userId));
+    const comments = await getResourceLikeCountAndIfLiked(
+      parseInt(resourceId),
+      parseInt(userId)
+    );
     res.status(200).json(comments);
   }
 );
