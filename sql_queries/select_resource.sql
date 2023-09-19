@@ -1,15 +1,5 @@
 WITH resource AS ( -- get the whole resource
-    SELECT
-    resources.id AS resource_id,
-    resources.title AS resource_title,
-    resources.url AS resource_url,
-    resources.description AS resource_description,
-    resources.created_at AS resource_created_at,
-    authors.id AS resource_author_id,
-    authors.name AS resource_author_name,
-    cohort_stage.id AS resource_stage_id,
-    cohort_stage.name AS resource_stage_name
-    FROM resources
+    SELECT resources.*, authors.name as author, cohort_stage.name AS stage FROM resources
     LEFT JOIN authors ON authors.id=resources.author_id
     LEFT JOIN cohort_stage ON cohort_stage.id=resources.stage_id
     WHERE resources.id=$1
