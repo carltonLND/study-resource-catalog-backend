@@ -1,80 +1,120 @@
 import {
+  DbFullResource,
   DbMinimalResource,
-  DbMinimalResourceWithTags,
+  DbResourceTag,
+  DbTag,
   FullResource,
   InsertedResource,
   MinimalResource,
   NewResource,
-  Resource,
   ResourceTag,
-  ResourceWithComments,
 } from "..";
 import { database } from "../server";
 import { insertResourceTags } from "./tags";
 
-function DbMinimalResourceWithTags_to_MinimalResource(
-  DbMinimalResource: DbMinimalResourceWithTags
+function DbMinimalResource_to_MinimalResource(
+  {
+    id,
+    title,
+    description,
+    created_at,
+    author_name,
+    author_id,
+  }: DbMinimalResource,
+  tags: DbResourceTag[]
 ): MinimalResource {
-  const { id, title, description, created_at, author_name, author_id, tags } =
-    DbMinimalResource;
   return {
     id,
     title,
     description,
     created_at,
     author: { name: author_name, id: author_id },
-    tags,
+    tags: tags
+      .filter((tag) => tag.resource_id === id)
+      .map((tag) => {
+        return { name: tag.name, id: tag.id };
+      }),
   };
 }
 
 export async function getMinimalResources(): Promise<MinimalResource[]> {
   const resources = await database
-    .fileQuery<DbMinimalResource>("select_resources")
+    .fileQuery<DbMinimalResource>("select_minimal_resources")
     .then((response) => response.rows);
   const tags = await database
-    .fileQuery<ResourceTag>("select_resource_tags")
+    .fileQuery<DbResourceTag>("select_all_resource_tags")
     .then((response) => response.rows);
-
-  const minResourcesWithTags = resources.map((resource) => {
-    const minDbResWithTag = {
-      ...resource,
-      tags: tags
-        .filter((t) => resource.id === t.resource_id)
-        .map((t) => {
-          return { id: t.tag_id, name: t.tag_name };
-        }),
-    };
-    return DbMinimalResourceWithTags_to_MinimalResource(minDbResWithTag);
-  });
-
-  return minResourcesWithTags;
+  const minimalResources = resources.map((resource) =>
+    DbMinimalResource_to_MinimalResource(resource, tags)
+  );
+  return minimalResources;
 }
 
-export async function getResourceById(resourceId: number): Promise<Resource> {
+function DbFullResource_to_FullResource(
+  {
+    id,
+    title,
+    author_id,
+    author_name,
+    url,
+    description,
+    created_at,
+    stage_id,
+    stage_name,
+    owner_id,
+    owner_name,
+    owner_is_faculty,
+    recommendation_type_id,
+    recommendation_type,
+    recommendation_content,
+  }: DbFullResource,
+  tags: DbTag[]
+): FullResource {
+  return {
+    id: id,
+    title: title,
+    author: {
+      id: author_id,
+      name: author_name,
+    },
+    url: url,
+    description: description,
+    created_at: created_at,
+    cohort_stage: {
+      id: stage_id,
+      name: stage_name,
+    },
+    recommendation: {
+      recommendation_type_id: recommendation_type_id,
+      recommendation_type: recommendation_type,
+      content: recommendation_content,
+    },
+    owner: {
+      id: owner_id,
+      name: owner_name,
+      is_faculty: owner_is_faculty,
+    },
+    tags: tags,
+  };
+}
+
+export async function getResourceById(
+  resourceId: number
+): Promise<FullResource> {
   try {
-    const resource = await database.fileQuery<Resource>("select_resource", [
-      resourceId,
-    ]);
-    return resource.rows[0];
+    const resource = await database.fileQuery<DbFullResource>(
+      "select_resource",
+      [resourceId]
+    );
+    const tags = await database
+      .fileQuery<ResourceTag>("select_resource_tags", [resourceId])
+      .then((response) => response.rows);
+    return DbFullResource_to_FullResource(resource.rows[0], tags);
   } catch (error) {
     console.log(error);
   }
-  const resource = {} as Resource;
+  const resource = {} as FullResource;
   return resource;
-}
-
-export async function getResourceByIdWithComments(
-  resourceId: number
-): Promise<ResourceWithComments> {
-  const resource = await database
-    .fileQuery<Resource>("select_resource", [resourceId])
-    .then((response) => response.rows);
-  console.log(resource);
-  const comments = await database
-    .query("SELECT * FROM comments WHERE resource_id= $1", [resourceId])
-    .then((response) => response.rows);
-  const resourceWithComments = { ...resource[0], comments: comments };
-  return resourceWithComments;
 }
 
 function InsertedResource_to_FullResource({
@@ -84,6 +124,7 @@ function InsertedResource_to_FullResource({
   author_name,
   url,
   description,
+  created_at,
   stage_id,
   stage_name,
   owner_id,
@@ -103,6 +144,7 @@ function InsertedResource_to_FullResource({
     },
     url: url,
     description: description,
+    created_at: created_at,
     cohort_stage: {
       id: stage_id,
       name: stage_name,

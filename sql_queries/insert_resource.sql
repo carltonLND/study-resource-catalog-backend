@@ -18,6 +18,7 @@ WITH new_resource AS (
         author_id,
         url,
         description,
+        created_at,
         stage_id
 ), new_user_resource AS (
     INSERT INTO user_resources (
@@ -57,6 +58,7 @@ new_resource.author_id AS author_id,
 authors.name AS author_name,
 new_resource.url AS url,
 new_resource.description AS description,
+new_resource.created_at AS created_at,
 new_resource.stage_id AS stage_id,
 cohort_stage.name AS stage_name,
 new_owner.owner_id AS owner_id,

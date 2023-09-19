@@ -1,13 +1,13 @@
 /* ========================================================= DATABASE TYPES =========================================================*/
-
-export interface DbRecommendationType {
-  id: number;
-  description: string;
-}
 export interface DbRecommendation {
   resource_id: number;
   recommendation_type_id: number;
   content: string;
+}
+
+export interface DbRecommendationType {
+  id: number;
+  description: string;
 }
 
 export interface DbTag {
@@ -17,7 +17,8 @@ export interface DbTag {
 
 export interface DbResourceTag {
   resource_id: number;
-  tag_id: number;
+  id: number;
+  name: string;
 }
 
 export interface DbAuthor {
@@ -30,20 +31,10 @@ export interface DbCohortStage {
   name: string;
 }
 
-export interface DbUserResource {
-  resource_id: number;
-  user_id: number;
-}
-
 export interface DbUser {
   id: number;
   name: string;
   is_faculty?: boolean;
-}
-
-export interface DbLike {
-  resource_id: number;
-  user_id: number;
 }
 
 export interface DbComment {
@@ -51,16 +42,6 @@ export interface DbComment {
   resource_id: number;
   user_id: number;
   content: string;
-  created_at: number;
-}
-
-export interface DbResource {
-  id: number;
-  title: string;
-  author_id: number;
-  url: string;
-  description: string;
-  stage_id: string;
   created_at: number;
 }
 
@@ -85,7 +66,7 @@ export interface MinimalResource {
   description: string;
   created_at: string;
   author: DbAuthor;
-  tags: DbTag[];
+  tags: ResourceTag[];
 }
 
 export interface NewResource {
@@ -112,25 +93,29 @@ export interface InsertedResource {
   owner_id: number;
   owner_name: string;
   owner_is_faculty: boolean;
+  created_at: number;
   tags: DbTag[];
   recommendation_type_id: number;
   recommendation_type: string;
   recommendation_content: string;
 }
 
-export interface Resource extends MinimalResource {
-  owner_name: string;
+export interface DbFullResource {
+  id: number;
+  title: string;
+  author_id?: number;
+  author_name?: string;
+  url: string;
+  description: string;
+  created_at: number;
+  stage_id?: number;
+  stage_name?: string;
   owner_id: number;
+  owner_name: string;
+  owner_is_faculty: boolean;
+  recommendation_type_id: number;
   recommendation_type: string;
-  recommendation_description: string;
-}
-
-export interface ResourceWithComments extends Resource {
-  comments: DbComment[];
-}
-
-export interface ResourceWithLikes extends Resource {
-  likes: Like[];
+  recommendation_content: string;
 }
 
 export interface FullResource {
@@ -140,9 +125,10 @@ export interface FullResource {
   url: string;
   description: string;
   cohort_stage: Partial<DbCohortStage>;
-  owner: DbUser;
-  tags: DbTag[];
   recommendation: Recommendation;
+  owner: DbUser;
+  created_at: number;
+  tags: DbTag[];
 }
 
 /* ========================================================= OTHER TYPES =========================================================*/
@@ -161,13 +147,17 @@ export interface Like {
 }
 
 export interface ResourceTag {
-  resource_id: number;
-  tag_id: number;
-  tag_name: string;
+  id: number;
+  name: string;
 }
 
 export interface Recommendation {
   recommendation_type_id: number;
   recommendation_type: string;
   content: string;
+}
+
+export interface ResourceLike {
+  user_id: number;
+  user_name: string;
 }
