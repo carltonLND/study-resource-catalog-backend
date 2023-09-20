@@ -3,7 +3,6 @@ import {
   addResourceToStudyList,
   getUserStudyList,
   getUsers,
-  insertUser,
   removeResourceFromStudyList,
 } from "../database/users";
 
@@ -58,16 +57,17 @@ router.delete("/:user_id/study_list/:resource_id", async (req, res) => {
   }
 });
 
-router.post<{ name: string }>("/:name", async (req, res) => {
-  try {
-    const { name } = req.params;
-    const user = await insertUser(name);
-    res.status(200).json(user);
-  } catch (error) {
-    console.error(error);
-    res.status(500).send("An error occurred. Check server logs.");
-  }
-});
+// functionality to add users disabled but left if needed in the future
+// router.post<{ name: string }>("/:name", async (req, res) => {
+//   try {
+//     const { name } = req.params;
+//     const user = await insertUser(name);
+//     res.status(200).json(user);
+//   } catch (error) {
+//     console.error(error);
+//     res.status(500).send("An error occurred. Check server logs.");
+//   }
+// });
 
 const userRouter = router;
 export default userRouter;
