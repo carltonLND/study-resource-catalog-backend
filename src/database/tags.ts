@@ -9,21 +9,21 @@ export async function getTags(): Promise<DbTag[]> {
 }
 
 export async function insertResourceTags(
-  tag_ids: number[],
+  tag_names: string[],
   resource_id: number
 ): Promise<DbTag[]> {
   await database.dynamicQuery<DbTag>(
     "insert_tags",
-    tag_ids,
+    tag_names,
     ["$$"],
-    tag_ids.length,
+    tag_names.length,
     0
   );
   const response = await database.dynamicQuery(
     "insert_resource_tags",
-    [resource_id, ...tag_ids],
+    [resource_id, ...tag_names],
     ["$1", "$$"],
-    tag_ids.length,
+    tag_names.length,
     1
   );
   const newResourceTags = response.rows;

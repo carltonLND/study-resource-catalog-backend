@@ -78,7 +78,7 @@ export interface NewResource {
   owner_id: number;
   recommendation_type_id: number;
   recommendation_content: string;
-  tag_ids: number[];
+  tag_names: string[];
 }
 
 export interface InsertedResource {
@@ -128,7 +128,7 @@ export interface FullResource {
   recommendation: Recommendation;
   owner: DbUser;
   created_at: number;
-  tags: DbTag[];
+  tags: ResourceTag[];
 }
 
 /* ========================================================= OTHER TYPES =========================================================*/
