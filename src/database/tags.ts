@@ -12,20 +12,21 @@ export async function insertResourceTags(
   tag_names: string[],
   resource_id: number
 ): Promise<DbTag[]> {
-  await database.dynamicQuery<DbTag>(
+    await database.dynamicQuery<DbTag>(
     "insert_tags",
     tag_names,
     ["$$"],
     tag_names.length,
     0
   );
-  const response = await database.dynamicQuery(
+    const tagIds = await database.query("select id from tags where name = ANY($1)", [tag_names]).then(response => response.rows.map(row => row.id));    
+    const response = await database.dynamicQuery(
     "insert_resource_tags",
-    [resource_id, ...tag_names],
+    [resource_id, ...tagIds],
     ["$1", "$$"],
     tag_names.length,
     1
   );
-  const newResourceTags = response.rows;
+    const newResourceTags = response.rows;
   return newResourceTags;
 }
