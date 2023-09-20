@@ -35,14 +35,17 @@ router.get("/:resourceId", async (req, res) => {
   }
 });
 
-router.post<"/", "", FullResource, NewResource>("/", async (req, res) => {
-  try {
-    const newResource = await insertResource(req.body);
-    res.status(200).json(newResource);
-  } catch (error) {
-    console.log(error);
+router.post<Record<string, never>, FullResource, NewResource>(
+  "/",
+  async (req, res) => {
+    try {
+      const newResource = await insertResource(req.body);
+      res.status(200).json(newResource);
+    } catch (error) {
+      console.log(error);
+    }
   }
-});
+);
 
 router.get<{ resourceId: string }>("/:resourceId/likes", async (_req, res) => {
   const { resourceId } = _req.params;
