@@ -49,37 +49,37 @@ router.post<Record<string, never>, FullResource, NewResource>(
 
 router.get<{ resourceId: string }>("/:resourceId/likes", async (_req, res) => {
   const { resourceId } = _req.params;
-  const comments = await getResourceLikes(parseInt(resourceId));
-  res.status(200).json(comments);
+  const likes = await getResourceLikes(parseInt(resourceId));
+  res.status(200).json(likes);
 });
 
 router.get<{ resourceId: string }>(
   "/:resourceId/comments",
-  async (_req, res) => {
-    const { resourceId } = _req.params;
+  async (req, res) => {
+    const { resourceId } = req.params;
     const comments = await getResourceComments(resourceId);
     res.status(200).json(comments);
   }
 );
 
-router.get<{ resourceId: string; userId: string }>(
+router.get<{ resourceId: string }>(
   "/:resourceId/likes/count",
-  async (_req, res) => {
-    const { resourceId } = _req.params;
-    const comments = await getResourceLikeCount(parseInt(resourceId));
-    res.status(200).json(comments);
+  async (req, res) => {
+    const { resourceId } = req.params;
+    const likes = await getResourceLikeCount(parseInt(resourceId));
+    res.status(200).json(likes);
   }
 );
 
 router.get<{ resourceId: string; userId: string }>(
   "/:resourceId/likes/count/:userId",
-  async (_req, res) => {
-    const { resourceId, userId } = _req.params;
-    const comments = await getResourceLikeCountAndIfLiked(
+  async (req, res) => {
+    const { resourceId, userId } = req.params;
+    const likesWithUser = await getResourceLikeCountAndIfLiked(
       parseInt(resourceId),
       parseInt(userId)
     );
-    res.status(200).json(comments);
+    res.status(200).json(likesWithUser);
   }
 );
 
