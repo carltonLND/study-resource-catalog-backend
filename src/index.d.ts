@@ -41,6 +41,8 @@ export interface DbComment {
   id: number;
   resource_id: number;
   user_id: number;
+  user_name: string;
+  user_is_faculty?: boolean;
   content: string;
   created_at: number;
 }

@@ -1,11 +1,29 @@
 import { DbComment, NewComment } from "..";
 import { database } from "../server";
 
+
+function DbComment_to_Comment({id, resource_id, user_id, user_name, user_is_faculty, content, created_at}: DbComment) {
+  return {
+    id,
+    resource_id,
+    user: {
+      id: user_id,
+      name: user_name,
+      is_faculty: user_is_faculty
+    },
+    content,
+    created_at,
+  };
+}
+
+
+
+
 export async function getResourceComments(resourceId: string) {
   const comments = await database
-    .query("SELECT * FROM comments WHERE resource_id= $1", [resourceId])
+    .fileQuery<DbComment>("select_resource_comments", [resourceId])
     .then((response) => response.rows);
-  return comments;
+  return comments.map(DbComment_to_Comment);
 }
 
 export async function insertResourceComment(
