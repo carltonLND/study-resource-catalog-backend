@@ -15,8 +15,42 @@ export async function insertUser(name: string): Promise<DbUser> {
   return users;
 }
 
-
-export async function getUserStudyList(userId: number): Promise<MinimalResource[]> {
-  const minimalResources = await database.fileQuery<MinimalResource>("select_user_study_list", [userId]).then((response) => response.rows);
-  return minimalResources
+export async function getUserStudyList(
+  userId: number
+): Promise<MinimalResource[]> {
+  const minimalResources = await database
+    .fileQuery<MinimalResource>("select_user_study_list", [userId])
+    .then((response) => response.rows);
+  return minimalResources;
 }
+
+export async function addResourceToStudyList(
+  userId: number,
+  resourceId: number
+) {
+  const minimalResources = await database
+    .fileQuery<{ user_id: number; resource_id: number }>(
+      "add_resource_to_study_list",
+      [userId, resourceId]
+    )
+    .then((response) => response.rows);
+  return minimalResources;
+}
+
+export async function removeResourceFromStudyList(
+  userId: number,
+  resourceId: number
+) {
+  const minimalResources = await database
+    .fileQuery<{ user_id: number; resource_id: number }>(
+      "remove_resource_from_study_list",
+      [userId, resourceId]
+    )
+    .then((response) => response.rows);
+  return minimalResources;
+}
+
+// export async function functionNameHere(param1: Type): Type {
+//   const minimalResources = await database.fileQuery<MinimalResource>("filename", [values]).then((response) => response.rows);
+//   return minimalResources
+// }

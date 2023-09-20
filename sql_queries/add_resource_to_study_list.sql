@@ -1,0 +1,1 @@
+INSERT INTO study_list (user_id, resource_id) VALUES ($1, $2) ON CONFLICT DO NOTHING RETURNING *;

@@ -14,32 +14,21 @@ export const database = new DatabaseClient(
   "sql_queries/setup_queries"
 );
 
-const app = express()
-  .use(express.json())
-  .use(cors())
-  .use(morgan("tiny"))
+const app = express().use(express.json()).use(cors()).use(morgan("tiny"));
 
 connectToDBAndStartListening();
 
-
-
 app.get("/dev/reset/database/:password", async (req, res) => {
-    if (req.params.password !== "pasword") {
-        res.status(400).send("Incorrect password");
-    } else {
-        await database.fileQuery("create_tables");
-        await database.fileQuery("insert_into_non_dependent_tables");
-        await database.fileQuery("insert_into_resources");
-        await database.fileQuery("insert_into_join_tables");
-        res.status(200).send("Database reset");
-    }
-
-
+  if (req.params.password !== "pasword") {
+    res.status(400).send("Incorrect password");
+  } else {
+    await database.fileQuery("create_tables");
+    await database.fileQuery("insert_into_non_dependent_tables");
+    await database.fileQuery("insert_into_resources");
+    await database.fileQuery("insert_into_join_tables");
+    res.status(200).send("Database reset");
+  }
 });
-
-
-
-
 
 async function connectToDBAndStartListening() {
   console.log("Attempting to connect to db");
