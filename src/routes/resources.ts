@@ -1,16 +1,19 @@
 import { Router } from "express";
+import { DbComment, FullResource, NewComment, NewResource } from "..";
 import {
-  getMinimalResources,
-  getResourceById,
-  insertResource,
-} from "../database/resources";
-import { FullResource, NewResource } from "..";
+  getResourceComments,
+  insertResourceComment,
+} from "../database/comments";
 import {
   getResourceLikeCount,
   getResourceLikeCountAndIfLiked,
   getResourceLikes,
 } from "../database/likes";
-import { getResourceComments } from "../database/comments";
+import {
+  getMinimalResources,
+  getResourceById,
+  insertResource,
+} from "../database/resources";
 
 const router = Router();
 
@@ -40,7 +43,7 @@ router.post<Record<string, never>, FullResource, NewResource>(
   async (req, res) => {
     try {
       const newResource = await insertResource(req.body);
-      res.status(200).json(newResource);
+      res.status(201).json(newResource);
     } catch (error) {
       console.log(error);
     }
@@ -59,6 +62,14 @@ router.get<{ resourceId: string }>(
     const { resourceId } = req.params;
     const comments = await getResourceComments(resourceId);
     res.status(200).json(comments);
+  }
+);
+
+router.post<Record<string, never>, DbComment, NewComment>(
+  "/:resourceId/comments",
+  async (req, res) => {
+    const newComment = await insertResourceComment(req.body);
+    res.status(201).json(newComment);
   }
 );
 
