@@ -1,9 +1,9 @@
-SELECT resources.id, resources.title, resources.description, resources.created_at, authors.id AS author_id, authors.name AS author_name
-    FROM resources
-    LEFT JOIN authors ON authors.id=resources.author_id
-    ORDER BY resources.id;
-    
-WITH minimal_resources AS (
+WITH deleted_resource AS (
+    DELETE FROM study_list
+    WHERE user_id = $1 AND resource_id = $2
+    returning resource_id
+),
+minimal_resources AS (
     SELECT resources.id, resources.title, resources.description, resources.created_at, authors.id AS author_id, authors.name AS author_name
     FROM resources
     LEFT JOIN authors ON authors.id=resources.author_id
@@ -13,4 +13,4 @@ minimal_resources.*
 FROM
 minimal_resources
 INNER JOIN study_list ON study_list.resource_id = minimal_resources.id
-WHERE study_list.user_id = $1;
+WHERE study_list.user_id = $1 AND study_list.resource_id != $2;

@@ -98,4 +98,13 @@ CREATE TABLE user_resources (
 	PRIMARY KEY (resource_id, user_id),
 	FOREIGN KEY (resource_id) REFERENCES resources(id) ON DELETE CASCADE,
 	FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
-)
+);
+
+
+CREATE TABLE study_list (
+	user_id SERIAL,
+	resource_id SERIAL,
+	PRIMARY KEY (user_id, resource_id),
+	FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE,
+	FOREIGN KEY (resource_id) REFERENCES resources(id) ON DELETE CASCADE
+);
