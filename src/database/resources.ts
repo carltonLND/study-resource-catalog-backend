@@ -172,7 +172,7 @@ export async function insertResource({
   owner_id,
   recommendation_type_id,
   recommendation_content,
-  tag_ids,
+  tag_names,
 }: NewResource): Promise<FullResource> {
   const newResource = await database
     .fileQuery<InsertedResource>("insert_resource", [
@@ -186,7 +186,7 @@ export async function insertResource({
       recommendation_content,
     ])
     .then((r) => r.rows[0]);
-  const newResourceTags = await insertResourceTags(tag_ids, newResource.id);
+  const newResourceTags = await insertResourceTags(tag_names, newResource.id);
   return InsertedResource_to_FullResource({
     ...newResource,
     tags: newResourceTags,
