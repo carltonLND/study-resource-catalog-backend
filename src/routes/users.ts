@@ -19,7 +19,7 @@ router.get("/", async (_req, res) => {
   }
 });
 
-router.get("/study_list/:user_id", async (req, res) => {
+router.get("/:user_id/study_list", async (req, res) => {
   try {
     const { user_id } = req.params;
     const user = await getUserStudyList(parseInt(user_id));
@@ -33,11 +33,11 @@ router.get("/study_list/:user_id", async (req, res) => {
 router.post("/:user_id/study_list/:resource_id", async (req, res) => {
   try {
     const { user_id, resource_id } = req.params;
-    const user = await addResourceToStudyList(
+    const resources = await addResourceToStudyList(
       parseInt(user_id),
       parseInt(resource_id)
     );
-    res.status(200).json(user);
+    res.status(200).json(resources);
   } catch (error) {
     console.error(error);
     res.status(500).send("An error occurred. Check server logs.");
@@ -47,11 +47,11 @@ router.post("/:user_id/study_list/:resource_id", async (req, res) => {
 router.delete("/:user_id/study_list/:resource_id", async (req, res) => {
   try {
     const { user_id, resource_id } = req.params;
-    const user = await removeResourceFromStudyList(
+    const resources = await removeResourceFromStudyList(
       parseInt(user_id),
       parseInt(resource_id)
     );
-    res.status(200).json(user);
+    res.status(200).json(resources);
   } catch (error) {
     console.error(error);
     res.status(500).send("An error occurred. Check server logs.");

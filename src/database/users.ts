@@ -29,10 +29,10 @@ export async function addResourceToStudyList(
   resourceId: number
 ) {
   const minimalResources = await database
-    .fileQuery<{ user_id: number; resource_id: number }>(
-      "add_resource_to_study_list",
-      [userId, resourceId]
-    )
+    .fileQuery<MinimalResource>("add_resource_to_study_list", [
+      userId,
+      resourceId,
+    ])
     .then((response) => response.rows);
   return minimalResources;
 }
@@ -42,10 +42,10 @@ export async function removeResourceFromStudyList(
   resourceId: number
 ) {
   const minimalResources = await database
-    .fileQuery<{ user_id: number; resource_id: number }>(
-      "remove_resource_from_study_list",
-      [userId, resourceId]
-    )
+    .fileQuery<MinimalResource>("remove_resource_from_study_list", [
+      userId,
+      resourceId,
+    ])
     .then((response) => response.rows);
   return minimalResources;
 }
