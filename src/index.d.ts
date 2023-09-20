@@ -41,10 +41,13 @@ export interface DbComment {
   id: number;
   resource_id: number;
   user_id: number;
-  user_name: string;
-  user_is_faculty?: boolean;
   content: string;
   created_at: number;
+}
+
+export interface DbCommentWithUser extends DbComment {
+  user_name: string;
+  user_is_faculty?: boolean;
 }
 
 /* ========================================================= RESOURCE TYPES =========================================================*/
