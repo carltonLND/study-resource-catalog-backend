@@ -18,14 +18,15 @@ export async function insertResourceTags(
 
   const matchingTags = allTags.filter((tag) => tag_names.includes(tag.name));
 
-  const response = await database.dynamicQuery(
-    "insert_resource_tags",
-    [resource_id, ...matchingTags.map((tag) => tag.id)],
-    ["$1", "$$"],
-    matchingTags.length,
-    1
-  );
+  const newResourceTags = await database
+    .dynamicQuery(
+      "insert_resource_tags",
+      [resource_id, ...matchingTags.map((tag) => tag.id)],
+      ["$1", "$$"],
+      matchingTags.length,
+      1
+    )
+    .then((response) => response.rows);
 
-  const newResourceTags = response.rows;
   return newResourceTags;
 }

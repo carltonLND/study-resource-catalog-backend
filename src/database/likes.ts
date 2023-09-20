@@ -32,6 +32,6 @@ export async function getResourceLikeCountAndIfLiked(
   const liked = likes.some((like) => like.user_id === userId);
   return {
     count: count,
-    liked: liked,
+    isLiked: liked,
   };
 }

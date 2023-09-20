@@ -45,6 +45,11 @@ export interface DbComment {
   created_at: number;
 }
 
+export interface DbCommentWithUser extends DbComment {
+  user_name: string;
+  user_is_faculty?: boolean;
+}
+
 /* ========================================================= RESOURCE TYPES =========================================================*/
 
 export interface DbMinimalResource {
