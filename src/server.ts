@@ -2,11 +2,9 @@ import cors from "cors";
 import dotenv from "dotenv";
 import express from "express";
 // import { DatabaseClient } from "../../query-from-file/src/databaseClient";
-import morgan from "morgan";
 import { DatabaseClient } from "query-from-file";
-import commentsRouter from "./routes/comments";
+import morgan from "morgan";
 import homeRouter from "./routes/general";
-import likesRouter from "./routes/likes";
 import resourcesRouter from "./routes/resources";
 import tagsRouter from "./routes/tags";
 import userRouter from "./routes/users";
@@ -29,11 +27,7 @@ const app = express()
   .use("/users", userRouter)
   .use("/resources", resourcesRouter)
   .use("/tags", tagsRouter)
-  .use("/likes", likesRouter)
-  .use("/comments", commentsRouter)
   .use("/recommendations", recommendationsRouter);
-
-
 
 connectToDBAndStartListening();
 

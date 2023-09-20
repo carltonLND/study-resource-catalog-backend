@@ -1,18 +1,22 @@
 import { Router } from "express";
 import {
+  getMinimalResources,
   getResourceById,
-  getResourceByIdWithComments,
-  getResources,
   insertResource,
 } from "../database/resources";
-import { NewResource } from "..";
-import { insertRecommendation } from "../database/recommendations";
+import { FullResource, NewResource } from "..";
+import {
+  getResourceLikeCount,
+  getResourceLikeCountAndIfLiked,
+  getResourceLikes,
+} from "../database/likes";
+import { getResourceComments } from "../database/comments";
 
 const router = Router();
 
 router.get("/", async (_req, res) => {
   try {
-    const resources = await getResources();
+    const resources = await getMinimalResources();
     res.status(200).json(resources);
   } catch (error) {
     console.error(error);
@@ -31,34 +35,50 @@ router.get("/:resourceId", async (req, res) => {
   }
 });
 
-router.get("/full/:resourceId", async (req, res) => {
-  try {
-    const { resourceId } = req.params;
-    const resource = await getResourceByIdWithComments(parseInt(resourceId));
-    res.status(200).json(resource);
-  } catch (error) {
-    console.error(error);
-    res.status(500).send("An error occurred. Check server logs.");
-  }
-});
-
-router.post<NewResource>("/", async (req, res) => {
+router.post<"/", "", FullResource, NewResource>("/", async (req, res) => {
   try {
     const newResource = await insertResource(req.body);
-    const newRecommendation = await insertRecommendation(
-      req.body.recommendation,
-      newResource.id
-    );
-    const createdResource = {
-      ...newResource,
-      recommendation: newRecommendation,
-    };
-    console.log(createdResource);
-    res.status(200).json(createdResource);
+    res.status(200).json(newResource);
   } catch (error) {
     console.log(error);
   }
 });
+
+router.get<{ resourceId: string }>("/:resourceId/likes", async (_req, res) => {
+  const { resourceId } = _req.params;
+  const comments = await getResourceLikes(parseInt(resourceId));
+  res.status(200).json(comments);
+});
+
+router.get<{ resourceId: string }>(
+  "/:resourceId/comments",
+  async (_req, res) => {
+    const { resourceId } = _req.params;
+    const comments = await getResourceComments(resourceId);
+    res.status(200).json(comments);
+  }
+);
+
+router.get<{ resourceId: string; userId: string }>(
+  "/:resourceId/likes/count",
+  async (_req, res) => {
+    const { resourceId } = _req.params;
+    const comments = await getResourceLikeCount(parseInt(resourceId));
+    res.status(200).json(comments);
+  }
+);
+
+router.get<{ resourceId: string; userId: string }>(
+  "/:resourceId/likes/count/:userId",
+  async (_req, res) => {
+    const { resourceId, userId } = _req.params;
+    const comments = await getResourceLikeCountAndIfLiked(
+      parseInt(resourceId),
+      parseInt(userId)
+    );
+    res.status(200).json(comments);
+  }
+);
 
 const resourcesRouter = router;
 export default resourcesRouter;
