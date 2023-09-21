@@ -187,7 +187,8 @@ export async function insertResource({
     ])
     .then((r) => r.rows[0]);
 
-    if (tag_names.length === 0) return InsertedResource_to_FullResource({...newResource, tags: []});
+  if (tag_names.length === 0)
+    return InsertedResource_to_FullResource({ ...newResource, tags: [] });
 
   const newResourceTags = await insertResourceTags(tag_names, newResource.id);
 
