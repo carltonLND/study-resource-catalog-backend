@@ -57,8 +57,8 @@ router.get<{ resourceId: string }>("/:resourceId/likes", async (_req, res) => {
     const likes = await getResourceLikes(parseInt(resourceId));
     res.status(200).json(likes);
   } catch (error) {
-    console.error(error)
-    res.status(500).send("An error occurred. Check server logs.")
+    console.error(error);
+    res.status(500).send("An error occurred. Check server logs.");
   }
 });
 
@@ -70,10 +70,10 @@ router.get<{ resourceId: string }>(
       const comments = await getResourceComments(resourceId);
       res.status(200).json(comments);
     } catch (error) {
-      console.error(error)
-      res.status(500).send("An error occurred. Check server logs.")
+      console.error(error);
+      res.status(500).send("An error occurred. Check server logs.");
     }
-    }
+  }
 );
 
 router.post<Record<string, never>, DbComment | string, NewComment>(
@@ -83,10 +83,10 @@ router.post<Record<string, never>, DbComment | string, NewComment>(
       const newComment = await insertResourceComment(req.body);
       res.status(201).json(newComment);
     } catch (error) {
-      console.error(error)
-      res.status(500).send("An error occurred. Check server logs.")
+      console.error(error);
+      res.status(500).send("An error occurred. Check server logs.");
     }
-    }
+  }
 );
 
 router.get<{ resourceId: string }>(
@@ -97,8 +97,8 @@ router.get<{ resourceId: string }>(
       const likes = await getResourceLikeCount(parseInt(resourceId));
       res.status(200).json(likes);
     } catch (error) {
-      console.error(error)
-      res.status(500).send("An error occurred. Check server logs.")
+      console.error(error);
+      res.status(500).send("An error occurred. Check server logs.");
     }
   }
 );
@@ -111,25 +111,31 @@ router.get<{ resourceId: string; userId: string }>(
       const likesWithUser = await getResourceLikeCountAndIfLiked(
         parseInt(resourceId),
         parseInt(userId)
-        );
-        res.status(200).json(likesWithUser);
-      } catch (error) {
-        console.error(error)
-        res.status(500).send("An error occurred. Check server logs.")
-      }
+      );
+      res.status(200).json(likesWithUser);
+    } catch (error) {
+      console.error(error);
+      res.status(500).send("An error occurred. Check server logs.");
+    }
   }
 );
 
-router.patch<{ resource_id: string; user_id: string }>("/:resource_id/likes/:user_id", async (req, res) => {
-  try {
-    const { resource_id, user_id } = req.params;
-    const result = await updateResourceLike(parseInt(resource_id), parseInt(user_id));
-    res.status(200).json(result);
-  } catch (error) {
-    console.error(error)
-    res.status(500).send("An error occurred. Check server logs.")
+router.patch<{ resource_id: string; user_id: string }>(
+  "/:resource_id/likes/:user_id",
+  async (req, res) => {
+    try {
+      const { resource_id, user_id } = req.params;
+      const result = await updateResourceLike(
+        parseInt(resource_id),
+        parseInt(user_id)
+      );
+      res.status(200).json(result);
+    } catch (error) {
+      console.error(error);
+      res.status(500).send("An error occurred. Check server logs.");
+    }
   }
-});
+);
 
 const resourcesRouter = router;
 export default resourcesRouter;
