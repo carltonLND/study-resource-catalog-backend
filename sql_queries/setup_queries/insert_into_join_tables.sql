@@ -18,7 +18,7 @@ VALUES
 (5, 2, 'absolutely flawless, 5/7.'),
 (6, 3, 'could not have been more perfect 5/7.');
 
-INSERT INTO likes (user_id, resource_id)
+INSERT INTO likes (resource_id, user_id)
 VALUES
 (1, 1),
 (1, 2),
