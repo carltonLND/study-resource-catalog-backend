@@ -4,4 +4,5 @@ WITH new_comment AS (
     )
     VALUES ($1, $2, $3) RETURNING *
 ) SELECT new_comment.*, users.name AS user_name, users.is_faculty AS user_is_faculty
+FROM new_comment
 LEFT JOIN users ON users.id = new_comment.user_id;
