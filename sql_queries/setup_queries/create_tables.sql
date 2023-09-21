@@ -51,7 +51,7 @@ CREATE TABLE resources (
 	url VARCHAR(255) NOT NULL,
 	description VARCHAR(255) NOT NULL,
 	stage_id SERIAL,
-	created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+	created_at TIMESTAMP DEFAULT timezone('utc', now()),
     FOREIGN KEY (author_id) REFERENCES authors(id) ON DELETE CASCADE,
     FOREIGN KEY (stage_id) REFERENCES cohort_stage(id)
 );
@@ -87,7 +87,7 @@ CREATE TABLE comments (
 	user_id SERIAL,
 	resource_id SERIAL,
 	content VARCHAR(255) NOT NULL,
-	created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+	created_at TIMESTAMP DEFAULT timezone('utc', now()),
     FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE,
     FOREIGN KEY (resource_id) REFERENCES resources(id) ON DELETE CASCADE
 );

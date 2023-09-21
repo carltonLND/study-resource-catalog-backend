@@ -100,7 +100,7 @@ function DbFullResource_to_FullResource(
 
 export async function getResourceById(
   resourceId: number
-): Promise<FullResource> {
+): Promise<FullResource | Record<string, never>> {
   try {
     const resource = await database.fileQuery<DbFullResource>(
       "select_resource",
@@ -112,9 +112,9 @@ export async function getResourceById(
     return DbFullResource_to_FullResource(resource.rows[0], tags);
   } catch (error) {
     console.log(error);
+
+    return {};
   }
-  const resource = {} as FullResource;
-  return resource;
 }
 
 function InsertedResource_to_FullResource({

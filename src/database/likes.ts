@@ -32,6 +32,13 @@ export async function getResourceLikeCountAndIfLiked(
   const liked = likes.some((like) => like.user_id === userId);
   return {
     count: count,
-    liked: liked,
+    isLiked: liked,
   };
+}
+
+export async function updateResourceLike(resourceId: number, user_id: number) {
+  const result = await database
+    .fileQuery("toggle_like", [resourceId, user_id])
+    .then((r) => r.rows);
+  return result;
 }
