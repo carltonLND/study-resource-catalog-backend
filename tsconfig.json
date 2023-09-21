@@ -6,6 +6,7 @@
     "allowSyntheticDefaultImports": true,
     "target": "es2020",
     "lib": ["es2020"],
+    "skipLibCheck": true,
     "moduleResolution": "node",
     "resolveJsonModule": true,
     "sourceMap": true,
