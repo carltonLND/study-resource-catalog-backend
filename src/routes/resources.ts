@@ -15,6 +15,7 @@ import {
   getResourceById,
   insertResource,
 } from "../database/resources";
+import { createResourceEmbed, sendNotification } from "../discord";
 
 const router = Router();
 
@@ -45,6 +46,9 @@ router.post<Record<string, never>, FullResource, NewResource>(
     try {
       const newResource = await insertResource(req.body);
       res.status(201).json(newResource);
+
+      const embed = createResourceEmbed(newResource);
+      sendNotification(embed);
     } catch (error) {
       console.log(error);
     }

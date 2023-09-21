@@ -136,15 +136,15 @@ function InsertedResource_to_FullResource({
   recommendation_content,
 }: InsertedResource): FullResource {
   return {
-    id: id,
-    title: title,
+    id,
+    title,
     author: {
       id: author_id,
       name: author_name,
     },
-    url: url,
-    description: description,
-    created_at: created_at,
+    url,
+    description,
+    created_at,
     cohort_stage: {
       id: stage_id,
       name: stage_name,
@@ -155,11 +155,11 @@ function InsertedResource_to_FullResource({
       is_faculty: owner_is_faculty,
     },
     recommendation: {
-      recommendation_type_id: recommendation_type_id,
-      recommendation_type: recommendation_type,
+      recommendation_type_id,
+      recommendation_type,
       content: recommendation_content,
     },
-    tags: tags,
+    tags,
   };
 }
 
@@ -186,7 +186,12 @@ export async function insertResource({
       recommendation_content,
     ])
     .then((r) => r.rows[0]);
+
+  if (tag_names.length === 0)
+    return InsertedResource_to_FullResource({ ...newResource, tags: [] });
+
   const newResourceTags = await insertResourceTags(tag_names, newResource.id);
+
   return InsertedResource_to_FullResource({
     ...newResource,
     tags: newResourceTags,
