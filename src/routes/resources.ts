@@ -120,11 +120,10 @@ router.get<{ resourceId: string; userId: string }>(
   }
 );
 
-router.patch<{ resourceId: string; userId: string }>("/:resource_id/likes/:user_id", async (req, res) => {
+router.patch<{ resource_id: string; user_id: string }>("/:resource_id/likes/:user_id", async (req, res) => {
   try {
-
-    const { resourceId, userId } = req.params;
-    const result = await updateResourceLike(parseInt(resourceId), parseInt(userId));
+    const { resource_id, user_id } = req.params;
+    const result = await updateResourceLike(parseInt(resource_id), parseInt(user_id));
     res.status(200).json(result);
   } catch (error) {
     console.error(error)
