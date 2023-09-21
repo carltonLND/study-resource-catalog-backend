@@ -21,8 +21,8 @@ router.get("/", async (_req, res) => {
 router.get("/:user_id/study_list", async (req, res) => {
   try {
     const { user_id } = req.params;
-    const user = await getUserStudyList(parseInt(user_id));
-    res.status(200).json(user);
+    const resource = await getUserStudyList(parseInt(user_id));
+    res.status(200).json(resource);
   } catch (error) {
     console.error(error);
     res.status(500).send("An error occurred. Check server logs.");
@@ -36,7 +36,7 @@ router.post("/:user_id/study_list/:resource_id", async (req, res) => {
       parseInt(user_id),
       parseInt(resource_id)
     );
-    res.status(200).json(resources);
+    res.status(201).json(resources);
   } catch (error) {
     console.error(error);
     res.status(500).send("An error occurred. Check server logs.");
