@@ -40,6 +40,11 @@ CREATE TABLE recommendation_type (
 	description VARCHAR(255) NOT NULL
 );
 
+CREATE TABLE content_type (
+	id SERIAL PRIMARY KEY,
+	description VARCHAR(255) NOT NULL
+);
+
 
 -- dependent tables
 
@@ -47,27 +52,29 @@ CREATE TABLE recommendation_type (
 CREATE TABLE resources (
 	id SERIAL PRIMARY KEY,
 	title VARCHAR(255) NOT NULL,
-	author_id SERIAL,
+	author_id INTEGER,
 	url VARCHAR(255) NOT NULL,
 	description VARCHAR(255) NOT NULL,
-	stage_id SERIAL,
+	stage_id INTEGER,
+	content_type_id INTEGER,
 	created_at TIMESTAMP DEFAULT timezone('utc', now()),
     FOREIGN KEY (author_id) REFERENCES authors(id) ON DELETE CASCADE,
-    FOREIGN KEY (stage_id) REFERENCES cohort_stage(id)
+    FOREIGN KEY (stage_id) REFERENCES cohort_stage(id) ON DELETE CASCADE,
+    FOREIGN KEY (content_type_id) REFERENCES content_type(id) ON DELETE CASCADE
 );
 
 
 CREATE TABLE resource_tags (
-	resource_id SERIAL,
-	tag_id SERIAL,
+	resource_id INTEGER,
+	tag_id INTEGER,
     PRIMARY KEY (resource_id, tag_id),
     FOREIGN KEY (resource_id) REFERENCES resources(id) ON DELETE CASCADE,
     FOREIGN KEY (tag_id) REFERENCES tags(id) ON DELETE CASCADE
 );
 
 CREATE TABLE recommendations (
-    resource_id SERIAL PRIMARY KEY,
-    recommendation_type_id SERIAL,
+    resource_id INTEGER PRIMARY KEY,
+    recommendation_type_id INTEGER,
     content VARCHAR(255) NOT NULL ,
     FOREIGN KEY (resource_id) REFERENCES resources(id) ON DELETE CASCADE,
     FOREIGN KEY (recommendation_type_id) REFERENCES recommendation_type(id) ON DELETE CASCADE
@@ -75,17 +82,17 @@ CREATE TABLE recommendations (
 
 
 CREATE TABLE likes (
-	resource_id SERIAL,
-	user_id SERIAL,
+	resource_id INTEGER,
+	user_id INTEGER,
     PRIMARY KEY (resource_id, user_id),
-    FOREIGN KEY (resource_id) REFERENCES users(id) ON DELETE CASCADE,
-    FOREIGN KEY (user_id) REFERENCES resources(id) ON DELETE CASCADE
+    FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE,
+    FOREIGN KEY (resource_id) REFERENCES resources(id) ON DELETE CASCADE
 );
 
 CREATE TABLE comments (
 	id SERIAL PRIMARY KEY,
-	user_id SERIAL,
-	resource_id SERIAL,
+	user_id INTEGER,
+	resource_id INTEGER,
 	content VARCHAR(255) NOT NULL,
 	created_at TIMESTAMP DEFAULT timezone('utc', now()),
     FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE,
@@ -93,8 +100,8 @@ CREATE TABLE comments (
 );
 
 CREATE TABLE user_resources (
-	resource_id SERIAL,
-	user_id SERIAL,
+	resource_id INTEGER,
+	user_id INTEGER,
 	PRIMARY KEY (resource_id, user_id),
 	FOREIGN KEY (resource_id) REFERENCES resources(id) ON DELETE CASCADE,
 	FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
@@ -102,8 +109,8 @@ CREATE TABLE user_resources (
 
 
 CREATE TABLE study_list (
-	user_id SERIAL,
-	resource_id SERIAL,
+	user_id INTEGER,
+	resource_id INTEGER,
 	PRIMARY KEY (user_id, resource_id),
 	FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE,
 	FOREIGN KEY (resource_id) REFERENCES resources(id) ON DELETE CASCADE

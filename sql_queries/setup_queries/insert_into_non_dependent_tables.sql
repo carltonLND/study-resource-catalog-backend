@@ -66,6 +66,15 @@ VALUES
 ('I do not recommend this resource, having used it'),
 ('I haven''t used this resource but it looks promising');
 
+INSERT INTO content_type (description)
+VALUES
+('article'),
+('video'),
+('book'),
+('podcast'),
+('course'),
+('other');
+
 commit;
 
 rollback;
